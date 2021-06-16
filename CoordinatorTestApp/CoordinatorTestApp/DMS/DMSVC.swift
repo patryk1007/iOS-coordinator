@@ -27,7 +27,7 @@ class DMSVC: UIViewController {
     }
     
     override func viewDidLoad() {
-        self.view.backgroundColor = .green
+        self.view.backgroundColor = .yellow
         self.navigationItem.hidesBackButton = true
         self.title = "DMS VIEW"
         self.addButton()
