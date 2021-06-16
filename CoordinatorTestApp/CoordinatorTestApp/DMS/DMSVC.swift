@@ -29,7 +29,7 @@ class DMSVC: UIViewController {
     override func viewDidLoad() {
         self.view.backgroundColor = .green
         self.navigationItem.hidesBackButton = true
-        self.title = "Get back to dashboard"
+        self.title = "DMS VIEW"
         self.addButton()
         self.addDetailsButton()
     }
@@ -55,7 +55,7 @@ class DMSVC: UIViewController {
         button.backgroundColor = UIColor.gray
         button.frame.size.width = 200
         button.frame.size.height = 50
-        button.setTitle("Logout", for: .normal)
+        button.setTitle("Get back to dashboard", for: .normal)
         var position = self.view.center
         position.y += 60
         button.center = position

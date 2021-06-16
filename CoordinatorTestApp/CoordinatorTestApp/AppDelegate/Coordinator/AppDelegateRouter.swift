@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 public class AppDelegateRouter: NSObject, Router {
-
     
+    public var navigationController: UINavigationController?
     public let window: UIWindow
     
     @objc public init(window: UIWindow) {
@@ -18,6 +18,9 @@ public class AppDelegateRouter: NSObject, Router {
     }
     
     public func present(_ viewController: UIViewController, animated: Bool, onDismissed: (() -> Void)?) {
+        if let viewController  = viewController as? UINavigationController {
+            self.navigationController = viewController
+        }
         window.rootViewController = viewController
         window.makeKeyAndVisible()
     }

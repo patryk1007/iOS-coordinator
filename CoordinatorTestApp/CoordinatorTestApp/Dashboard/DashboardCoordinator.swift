@@ -38,19 +38,23 @@ class DashboardCoordinator: Coordinator {
     }
     
     func presentDMS() {
-      //  let dmsRouter = NavigationRouter(navigationController: )
-      //  presentChild(<#T##child: Coordinator##Coordinator#>, animated: <#T##Bool#>)
+        guard let navigationController = router.navigationController else {
+            return
+        }
+        let dmsRouter = NavigationRouter(navigationController: navigationController)
+        let dmsCoordinator = DMSCoordinator(router: dmsRouter, delegate: self)
+        presentChild(dmsCoordinator, animated: true)
     }
 }
 
 extension DashboardCoordinator: DMSCoordinatorDelegate {
     
     func dmsCoordinatorDidFinish(coordinaotr: Coordinator) {
-        coordinaotr.removeChild(coordinaotr, animated: false)
+        coordinaotr.dismiss(animated: true)
     }
     
     func getBackToDashbaord(coordinaotr: Coordinator) {
-        
+        self.presentMainView(animated: true)
     }
     
     
@@ -67,8 +71,12 @@ extension DashboardCoordinator: DashboardVCDelegate {
 }
 
 extension DashboardCoordinator: DeviceDetailsVCDelegate {
+    func openDMS() {
+        self.presentDMS()
+    }
+    
     func backToDahboard() {
-        self.presentMainView(animated: false)
+        self.presentMainView(animated: true)
     }
     
 

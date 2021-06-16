@@ -175,10 +175,8 @@
 			isa = PBXGroup;
 			children = (
 				67E3CF352678F90000EB4294 /* DashboardVC.swift */,
-				6762F2EA267A18B700433F2D /* DMSVC.swift */,
 				67E3CF392679E2CF00EB4294 /* DeviceDetailsVC.swift */,
 				67E3CF372678F90B00EB4294 /* DashboardCoordinator.swift */,
-				67E3CF3B267A180200EB4294 /* DMSCoordinator.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -186,6 +184,8 @@
 		67E3CF282678E87600EB4294 /* DMS */ = {
 			isa = PBXGroup;
 			children = (
+				6762F2EA267A18B700433F2D /* DMSVC.swift */,
+				67E3CF3B267A180200EB4294 /* DMSCoordinator.swift */,
 			);
 			path = DMS;
 			sourceTree = "<group>";

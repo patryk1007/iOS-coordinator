@@ -10,6 +10,7 @@ import UIKit
 
 protocol DeviceDetailsVCDelegate {
     func backToDahboard()
+    func openDMS()
 }
 
 class DeviceDetailsVC: UIViewController {
@@ -30,6 +31,23 @@ class DeviceDetailsVC: UIViewController {
         self.navigationItem.hidesBackButton = true
         self.title = "Device details"
         self.addButton()
+        self.addDMSButton()
+    }
+    
+    func addDMSButton() {
+        let button = UIButton()
+        button.backgroundColor = UIColor.gray
+        button.frame.size.width = 200
+        button.frame.size.height = 50
+        button.setTitle("Open DMS", for: .normal)
+        button.center = self.view.center
+        button.addTarget(self, action: #selector(buttonDMSAction), for: .touchUpInside)
+        view.addSubview(button)
+    }
+    
+    
+    @objc func buttonDMSAction(sender: UIButton!) {
+        delegate.openDMS()
     }
     
     func addButton() {
@@ -38,7 +56,9 @@ class DeviceDetailsVC: UIViewController {
         button.frame.size.width = 200
         button.frame.size.height = 50
         button.setTitle("Back to dashboard", for: .normal)
-        button.center = self.view.center
+        var position = self.view.center
+        position.y += 60
+        button.center = position
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         view.addSubview(button)
     }

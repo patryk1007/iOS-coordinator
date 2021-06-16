@@ -10,22 +10,23 @@ import UIKit
 
 // MARK: - Navigation Router
 public class NavigationRouter: NSObject {
-    private let navigationController: UINavigationController
+    public var navigationController: UINavigationController?
+    
     private var routerRootController: UIViewController?
     private var onDismissForViewController: [UIViewController: (()->Void)] = [:]
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-        self.routerRootController = navigationController.viewControllers.first
+        self.routerRootController = navigationController.viewControllers.last
         super.init()
-        self.navigationController.delegate = self
+        self.navigationController?.delegate = self
     }
     
     public init(navigationController: UINavigationController, routerRootController: UIViewController) {
         self.navigationController = navigationController
         self.routerRootController = routerRootController
         super.init()
-        self.navigationController.delegate = self
+        self.navigationController?.delegate = self
     }
     
     public func updateRootView(routerRootController: UIViewController?) {
@@ -36,8 +37,7 @@ public class NavigationRouter: NSObject {
 extension NavigationRouter: Router {
     
     public func popTo<T>(type: T.Type, animated: Bool) -> Bool {
-        let viewControllers = self.navigationController.viewControllers
-        guard let vc = viewControllers.first(where:  { ($0 as? T) != nil  }) else {
+        guard let navigationController = self.navigationController, let vc = navigationController.viewControllers.first(where:  { ($0 as? T) != nil  }) else {
             return false
         }
         navigationController.popToViewController(vc, animated: animated)
@@ -48,22 +48,22 @@ extension NavigationRouter: Router {
                         animated: Bool,
                         onDismissed: (()->Void)?) {
         onDismissForViewController[viewController] = onDismissed
-        navigationController.pushViewController(viewController, animated: animated)
+        navigationController?.pushViewController(viewController, animated: animated)
     }
     
     public func presentModally(_ viewController: UIViewController, animated: Bool, onDismissed: (()->Void)?) {
         onDismissForViewController[viewController] = onDismissed
-        navigationController.present(viewController, animated: true, completion: nil)
+        navigationController?.present(viewController, animated: true, completion: nil)
     }
     
     public func dismiss(animated: Bool) {
-        guard let routerRootController = routerRootController, (self.navigationController.viewControllers.contains { $0 == routerRootController })
+        guard let routerRootController = routerRootController, (self.navigationController?.viewControllers.contains { $0 == routerRootController } == true)
         else {
-            navigationController.popToRootViewController(animated: animated)
+            navigationController?.popToRootViewController(animated: animated)
             return
         }
         performOnDismissed(for: routerRootController)
-        navigationController.popToViewController(routerRootController, animated: animated)
+        navigationController?.popToViewController(routerRootController, animated: animated)
     }
     
     private func performOnDismissed(for viewController: UIViewController) {
@@ -90,6 +90,8 @@ extension NavigationRouter: UINavigationControllerDelegate {
 
 // MARK: - Router
 public protocol Router: AnyObject {
+    var navigationController: UINavigationController? {get}
+    
     func present(_ viewController: UIViewController, animated: Bool)
     func present(_ viewController: UIViewController, animated: Bool, onDismissed: (()->Void)?)
     func presentModally(_ viewController: UIViewController, animated: Bool)
